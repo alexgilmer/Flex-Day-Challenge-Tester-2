@@ -41,6 +41,14 @@ namespace Flex_Day_Challenge_Tester_2.Testers
                 "He traveled all around the world and everywhere he went He'd use his word and all would say there goes a clever gent " +
                 "When dukes or Maharajas pass the time of day with me", 34));
 
+            tests.Add(new(
+                "Hobbiton, The Shire - A scandal has rocked the peaceful community of The Shire, following allegations of misconduct by one of its most prominent members. " +
+                "Bilbo Baggins, the former ring-bearer, has been accused of stealing a valuable artifact from a fellow hobbit's home during a dinner party. " +
+                "Witnesses claim that Bilbo was caught red-handed with the artifact and ejected from the party. " +
+                "The victim, who wished to remain anonymous, revealed that it was a rare and valuable piece of jewelry with significant sentimental value. " +
+                "Bilbo denies any wrongdoing, claiming no recollection of the events. " +
+                "This incident has sent shockwaves through the tight-knit hobbit community, with many calling for Bilbo to be held accountable for his actions.", 30));
+
             return tests;
         }
 
@@ -143,6 +151,17 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             }
 
             return true;
+        }
+
+        protected override string GetOutputString(IList<string> output)
+        {
+            StringBuilder result = new();
+            foreach (string s in output)
+            {
+                result.AppendLine(s);
+            }
+
+            return result.ToString();
         }
     }
 }
