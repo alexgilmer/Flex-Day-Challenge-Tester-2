@@ -28,7 +28,7 @@ namespace Flex_Day_Challenge_Tester_2
 
                     if (printIndividualResults)
                     {
-                        Console.WriteLine($"Test case: {i}.  Expected result: {solution}.  Student result: {studentResult}.  Test Passed: {passed}.");
+                        Console.WriteLine($"Test case: {i}.  Expected result: \n{GetOutputString(solution)}\n.  Student result: \n{GetOutputString(studentResult)}\n.  Test Passed: {passed}.");
                     }
                     if (!passed)
                     {
@@ -58,8 +58,8 @@ namespace Flex_Day_Challenge_Tester_2
             for (int i = 0; i < tests.Count; i++)
             {
                 Console.WriteLine($"Performing test {i}.");
-                Console.WriteLine(tests[i].ToString());
-                Console.WriteLine(SolutionFunction(tests[i]).ToString());
+                Console.WriteLine(GetInputString(tests[i]));
+                Console.WriteLine(GetOutputString(SolutionFunction(tests[i])));
             }
         }
 
@@ -73,6 +73,16 @@ namespace Flex_Day_Challenge_Tester_2
             {
                 throw new Exception("Data types aren't equatable, and SolutionsMatch method requires override");
             }
+        }
+
+        protected virtual string GetInputString(TInputType input)
+        {
+            return input.ToString();
+        }
+
+        protected virtual string GetOutputString(TOutputType output)
+        {
+            return output.ToString();
         }
     }
 
@@ -102,7 +112,7 @@ namespace Flex_Day_Challenge_Tester_2
 
                     if (printIndividualResults)
                     {
-                        Console.WriteLine($"Test case: {i}.  Expected result: {solution}.  Student result: {studentResult}.  Test Passed: {passed}.");
+                        Console.WriteLine($"Test case: {i}.  Expected result: \n{GetOutputString(solution)}\n.  Student result: \n{GetOutputString(studentResult)}\n.  Test Passed: {passed}.");
                     }
                     if (!passed)
                     {
@@ -132,8 +142,8 @@ namespace Flex_Day_Challenge_Tester_2
             for (int i = 0; i < tests.Count; i++)
             {
                 Console.WriteLine($"Performing test {i}.");
-                Console.WriteLine(tests[i].ToString());
-                Console.WriteLine(SolutionFunction(tests[i]).ToString());
+                Console.WriteLine(GetInputString(tests[i]));
+                Console.WriteLine(GetOutputString(SolutionFunction(tests[i])));
             }
         }
 
@@ -147,6 +157,16 @@ namespace Flex_Day_Challenge_Tester_2
             {
                 throw new Exception("Data types aren't equatable, and SolutionsMatch method requires override");
             }
+        }
+
+        protected virtual string GetInputString(Tuple<TInputType1, TInputType2> input)
+        {
+            return input.ToString();
+        }
+
+        protected virtual string GetOutputString(TOutputType output)
+        {
+            return output.ToString();
         }
     }
 
@@ -176,7 +196,7 @@ namespace Flex_Day_Challenge_Tester_2
 
                     if (printIndividualResults)
                     {
-                        Console.WriteLine($"Test case: {i}.  Expected result: {solution}.  Student result: {studentResult}.  Test Passed: {passed}.");
+                        Console.WriteLine($"Test case: {i}.  Expected result: \n{GetOutputString(solution)}\n.  Student result: \n{GetOutputString(studentResult)}\n.  Test Passed: {passed}.");
                     }
                     if (!passed)
                     {
@@ -206,8 +226,8 @@ namespace Flex_Day_Challenge_Tester_2
             for (int i = 0; i < tests.Count; i++)
             {
                 Console.WriteLine($"Performing test {i}.");
-                Console.WriteLine(tests[i].ToString());
-                Console.WriteLine(SolutionFunction(tests[i]).ToString());
+                Console.WriteLine(GetInputString(tests[i]));
+                Console.WriteLine(GetOutputString(SolutionFunction(tests[i])));
             }
         }
 
@@ -221,6 +241,16 @@ namespace Flex_Day_Challenge_Tester_2
             {
                 throw new Exception("Data types aren't equatable, and SolutionsMatch method requires override");
             }
+        }
+
+        protected virtual string GetInputString(Tuple<TInputType1, TInputType2, TInputType3> input)
+        {
+            return input.ToString();
+        }
+
+        protected virtual string GetOutputString(TOutputType output)
+        {
+            return output.ToString();
         }
     }
 }
