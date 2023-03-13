@@ -25,16 +25,16 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return Solve(input, "");
         }
 
-        private Dictionary<int, string> PhoneLetters = new()
+        private readonly Dictionary<char, string> PhoneLetters = new()
         {
-            { 2, "abc" },
-            { 3, "def" },
-            { 4, "ghi" },
-            { 5, "jkl" },
-            { 6, "mno" },
-            { 7, "pqrs" },
-            { 8, "tuv" },
-            { 9, "wxyz" }
+            { '2', "abc" },
+            { '3', "def" },
+            { '4', "ghi" },
+            { '5', "jkl" },
+            { '6', "mno" },
+            { '7', "pqrs" },
+            { '8', "tuv" },
+            { '9', "wxyz" }
         };
 
         private IList<string> Solve(string input = "", string curLetters = "")
@@ -45,7 +45,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
                 return result;
             }
 
-            int digit = int.Parse(input[0].ToString());
+            char digit = input[0];
 
             if (input.Length == 1)
             {
