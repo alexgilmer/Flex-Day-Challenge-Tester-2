@@ -151,7 +151,7 @@ namespace Flex_Day_Challenge_Tester_2
         {
             if (s1 is IEquatable<TOutputType> es1 && s2 is IEquatable<TOutputType> es2)
             {
-                return es1 == es2;
+                return es1.Equals(es2);
             }
             else
             {
@@ -235,7 +235,7 @@ namespace Flex_Day_Challenge_Tester_2
         {
             if (s1 is IEquatable<TOutputType> es1 && s2 is IEquatable<TOutputType> es2)
             {
-                return es1 == es2;
+                return es1.Equals(es2);
             }
             else
             {
