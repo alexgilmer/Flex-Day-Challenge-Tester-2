@@ -12,8 +12,10 @@ namespace Flex_Day_Challenge_Tester_2
         protected abstract IList<TInputType> GetTests();
         protected abstract TOutputType SolutionFunction(TInputType input);
 
-        internal bool RunTests(Func<TInputType, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
+        internal void RunTests(Func<TInputType, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
         {
+            Console.WriteLine($"Running tests for {TestName}...");
+
             IList<TInputType> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
             {
@@ -32,7 +34,8 @@ namespace Flex_Day_Challenge_Tester_2
                     }
                     if (!passed)
                     {
-                        return false;
+                        Console.WriteLine("Test failed");
+                        return;
                     }
                 }
                 catch (Exception e)
@@ -45,11 +48,12 @@ namespace Flex_Day_Challenge_Tester_2
                     {
                         Console.WriteLine("Error thrown.");
                     }
-                    return false;
+                    return;
                 }
             }
 
-            return true;
+            Console.WriteLine("Tests passed.");
+            return;
         }
 
         internal void PrintSolutions()
@@ -96,8 +100,10 @@ namespace Flex_Day_Challenge_Tester_2
             return SolutionFunction(inputs.Item1, inputs.Item2);
         }
 
-        internal bool RunTests(Func<TInputType1, TInputType2, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
+        internal void RunTests(Func<TInputType1, TInputType2, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
         {
+            Console.WriteLine($"Running tests for {TestName}...");
+
             IList<Tuple<TInputType1, TInputType2>> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
             {
@@ -116,7 +122,8 @@ namespace Flex_Day_Challenge_Tester_2
                     }
                     if (!passed)
                     {
-                        return false;
+                        Console.WriteLine("Test failed");
+                        return;
                     }
                 }
                 catch (Exception e)
@@ -129,11 +136,12 @@ namespace Flex_Day_Challenge_Tester_2
                     {
                         Console.WriteLine("Error thrown.");
                     }
-                    return false;
+                    return;
                 }
             }
 
-            return true;
+            Console.WriteLine("Tests passed.");
+            return;
         }
 
         internal void PrintSolutions()
@@ -180,8 +188,10 @@ namespace Flex_Day_Challenge_Tester_2
             return SolutionFunction(inputs.Item1, inputs.Item2, inputs.Item3);
         }
 
-        internal bool RunTests(Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
+        internal void RunTests(Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
         {
+            Console.WriteLine($"Running tests for {TestName}...");
+
             IList<Tuple<TInputType1, TInputType2, TInputType3>> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
             {
@@ -200,7 +210,8 @@ namespace Flex_Day_Challenge_Tester_2
                     }
                     if (!passed)
                     {
-                        return false;
+                        Console.WriteLine("Test failed");
+                        return;
                     }
                 }
                 catch (Exception e)
@@ -213,11 +224,12 @@ namespace Flex_Day_Challenge_Tester_2
                     {
                         Console.WriteLine("Error thrown.");
                     }
-                    return false;
+                    return;
                 }
             }
 
-            return true;
+            Console.WriteLine("Tests passed.");
+            return;
         }
 
         internal void PrintSolutions()
