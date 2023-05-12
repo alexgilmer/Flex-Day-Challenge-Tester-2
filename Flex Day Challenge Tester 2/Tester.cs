@@ -21,14 +21,19 @@ namespace Flex_Day_Challenge_Tester_2
         {
             Console.WriteLine($"Running tests for {TestName}...");
 
-            IList<TInputType> tests = GetTests();
+            // two identical copies of test data, to protect against reference-based errors
+            IList<TInputType> solutionTestList = GetTests();
+            IList<TInputType> studentTestList = GetTests();
+
             int passes = 0;
             int failures = 0;
 
-            for (int i = 0; i < tests.Count; i++)
+            for (int i = 0; i < solutionTestList.Count; i++)
             {
-                var test = tests[i];
-                TestResult result = RunSingleTest(test, studentFunction);
+                var solutionTestData = solutionTestList[i];
+                var studentTestData = studentTestList[i];
+
+                TestResult result = RunSingleTest(solutionTestData, studentTestData, studentFunction);
 
                 if (result.Failed)
                 {
@@ -36,7 +41,7 @@ namespace Flex_Day_Challenge_Tester_2
 
                     if (printDetailedFailures || printAllResults)
                     {
-                        Console.WriteLine($"Test index {i} failed.");
+                        Console.WriteLine($"\nTest index {i} failed.");
                         Console.WriteLine($"Input: \n{result.Input}");
                         Console.WriteLine($"Output: \n{result.ActualOutput}");
                         Console.WriteLine($"Exptected output: \n{result.ExpectedOutput}");
@@ -52,28 +57,27 @@ namespace Flex_Day_Challenge_Tester_2
                     passes++;
                     if (printAllResults)
                     {
-                        Console.WriteLine($"Test index {i} passed.");
+                        Console.WriteLine($"\nTest index {i} passed.");
                         Console.WriteLine($"Input: \n{result.Input}");
                         Console.WriteLine($"Output: \n{result.ActualOutput}");
                     }
                 }
             }
 
-            Console.WriteLine($"Final testing results: {passes} passes.  {failures} failures.");
+            Console.WriteLine($"\nFinal testing results: {passes} pass(es).  {failures} failure(s).");
         }
 
-        internal TestResult RunSingleTest(TInputType test, Func<TInputType, TOutputType> studentFunction)
+        private TestResult RunSingleTest(TInputType solutionTestData, TInputType studentTestData, Func<TInputType, TOutputType> studentFunction)
         {
-            TOutputType solution = SolutionFunction(test);
-
+            TOutputType solution = SolutionFunction(solutionTestData);
             try
             {
-                TOutputType studentResult = studentFunction(test);
+                TOutputType studentResult = studentFunction(studentTestData);
 
                 return new TestResult()
                 {
                     Passed = SolutionsMatch(studentResult, solution),
-                    Input = GetInputString(test),
+                    Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
                     ActualOutput = GetOutputString(studentResult)
                 };
@@ -83,7 +87,7 @@ namespace Flex_Day_Challenge_Tester_2
                 return new TestResult()
                 {
                     Passed = false,
-                    Input = GetInputString(test),
+                    Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
                     ActualOutput = e.Message
                 };
@@ -143,14 +147,18 @@ namespace Flex_Day_Challenge_Tester_2
         {
             Console.WriteLine($"Running tests for {TestName}...");
 
-            IList<Tuple<TInputType1, TInputType2>> tests = GetTests();
+            IList<Tuple<TInputType1, TInputType2>> solutionTestList = GetTests();
+            IList<Tuple<TInputType1, TInputType2>> studentTestList = GetTests();
+
             int passes = 0;
             int failures = 0;
 
-            for (int i = 0; i < tests.Count; i++)
+            for (int i = 0; i < solutionTestList.Count; i++)
             {
-                var test = tests[i];
-                TestResult result = RunSingleTest(test, studentFunction);
+                var solutionTestData = solutionTestList[i];
+                var studentTestData = studentTestList[i];
+
+                TestResult result = RunSingleTest(solutionTestData, studentTestData, studentFunction);
 
                 if (result.Failed)
                 {
@@ -184,18 +192,23 @@ namespace Flex_Day_Challenge_Tester_2
             Console.WriteLine($"Final testing results: {passes} passes.  {failures} failures.");
         }
 
-        internal TestResult RunSingleTest(Tuple<TInputType1, TInputType2> test, Func<TInputType1, TInputType2, TOutputType> studentFunction)
+        private TestResult RunSingleTest(
+            Tuple<TInputType1, TInputType2> solutionTestData, 
+            Tuple<TInputType1, TInputType2> studentTestData,
+            Func<TInputType1, TInputType2, TOutputType> studentFunction
+        )
         {
-            TOutputType solution = SolutionFunction(test);
-
+            TOutputType solution = SolutionFunction(solutionTestData);
             try
             {
-                TOutputType studentResult = studentFunction(test.Item1, test.Item2);
+                TOutputType studentResult = studentFunction(
+                    studentTestData.Item1, studentTestData.Item2
+                    );
 
                 return new TestResult()
                 {
                     Passed = SolutionsMatch(studentResult, solution),
-                    Input = GetInputString(test),
+                    Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
                     ActualOutput = GetOutputString(studentResult)
                 };
@@ -205,7 +218,7 @@ namespace Flex_Day_Challenge_Tester_2
                 return new TestResult()
                 {
                     Passed = false,
-                    Input = GetInputString(test),
+                    Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
                     ActualOutput = e.Message
                 };
@@ -265,14 +278,18 @@ namespace Flex_Day_Challenge_Tester_2
         {
             Console.WriteLine($"Running tests for {TestName}...");
 
-            IList<Tuple<TInputType1, TInputType2, TInputType3>> tests = GetTests();
+            IList<Tuple<TInputType1, TInputType2, TInputType3>> solutionTestList = GetTests();
+            IList<Tuple<TInputType1, TInputType2, TInputType3>> studentTestList = GetTests();
+
             int passes = 0;
             int failures = 0;
 
-            for (int i = 0; i < tests.Count; i++)
+            for (int i = 0; i < solutionTestList.Count; i++)
             {
-                var test = tests[i];
-                TestResult result = RunSingleTest(test, studentFunction);
+                var solutionTestData = solutionTestList[i];
+                var studentTestData = studentTestList[i];
+
+                TestResult result = RunSingleTest(solutionTestData, studentTestData, studentFunction);
 
                 if (result.Failed)
                 {
@@ -306,18 +323,26 @@ namespace Flex_Day_Challenge_Tester_2
             Console.WriteLine($"Final testing results: {passes} passes.  {failures} failures.");
         }
 
-        internal TestResult RunSingleTest(Tuple<TInputType1, TInputType2, TInputType3> test, Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction)
+        private TestResult RunSingleTest(
+            Tuple<TInputType1, TInputType2, TInputType3> solutionTestData,
+            Tuple<TInputType1, TInputType2, TInputType3> studentTestData,
+            Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction
+        )
         {
-            TOutputType solution = SolutionFunction(test);
+            TOutputType solution = SolutionFunction(solutionTestData);
 
             try
             {
-                TOutputType studentResult = studentFunction(test.Item1, test.Item2, test.Item3);
+                TOutputType studentResult = studentFunction(
+                    studentTestData.Item1,
+                    studentTestData.Item2,
+                    studentTestData.Item3
+                    );
 
                 return new TestResult()
                 {
                     Passed = SolutionsMatch(studentResult, solution),
-                    Input = GetInputString(test),
+                    Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
                     ActualOutput = GetOutputString(studentResult)
                 };
@@ -327,7 +352,7 @@ namespace Flex_Day_Challenge_Tester_2
                 return new TestResult()
                 {
                     Passed = false,
-                    Input = GetInputString(test),
+                    Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
                     ActualOutput = e.Message
                 };
