@@ -12,48 +12,82 @@ namespace Flex_Day_Challenge_Tester_2
         protected abstract IList<TInputType> GetTests();
         protected abstract TOutputType SolutionFunction(TInputType input);
 
-        internal void RunTests(Func<TInputType, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
+        internal void RunTests(
+            Func<TInputType, TOutputType> studentFunction,
+            bool printAllResults = false,
+            bool printDetailedFailures = false,
+            bool breakOnTestFailure = true
+        )
         {
             Console.WriteLine($"Running tests for {TestName}...");
 
             IList<TInputType> tests = GetTests();
+            int passes = 0;
+            int failures = 0;
+
             for (int i = 0; i < tests.Count; i++)
             {
                 var test = tests[i];
+                TestResult result = RunSingleTest(test, studentFunction);
 
-                try
+                if (result.Failed)
                 {
-                    TOutputType solution = SolutionFunction(test);
-                    TOutputType studentResult = studentFunction(test);
+                    failures++;
 
-                    bool passed = SolutionsMatch(studentResult, solution);
-
-                    if (printIndividualResults)
+                    if (printDetailedFailures || printAllResults)
                     {
-                        Console.WriteLine($"Test case: {i}.  Expected result: \n{GetOutputString(solution)}\n.  Student result: \n{GetOutputString(studentResult)}\n.  Test Passed: {passed}.");
+                        Console.WriteLine($"Test index {i} failed.");
+                        Console.WriteLine($"Input: \n{result.Input}");
+                        Console.WriteLine($"Output: \n{result.ActualOutput}");
+                        Console.WriteLine($"Exptected output: \n{result.ExpectedOutput}");
                     }
-                    if (!passed)
+
+                    if (breakOnTestFailure)
                     {
-                        Console.WriteLine("Test failed");
-                        return;
+                        break;
                     }
                 }
-                catch (Exception e)
+                else
                 {
-                    if (printErrorMessages)
+                    passes++;
+                    if (printAllResults)
                     {
-                        Console.WriteLine($"Error thrown on zero-indexed test case: {i}.  Error message: {e.Message}");
+                        Console.WriteLine($"Test index {i} passed.");
+                        Console.WriteLine($"Input: \n{result.Input}");
+                        Console.WriteLine($"Output: \n{result.ActualOutput}");
                     }
-                    else
-                    {
-                        Console.WriteLine("Error thrown.");
-                    }
-                    return;
                 }
             }
 
-            Console.WriteLine("Tests passed.");
-            return;
+            Console.WriteLine($"Final testing results: {passes} passes.  {failures} failures.");
+        }
+
+        internal TestResult RunSingleTest(TInputType test, Func<TInputType, TOutputType> studentFunction)
+        {
+            TOutputType solution = SolutionFunction(test);
+
+            try
+            {
+                TOutputType studentResult = studentFunction(test);
+
+                return new TestResult()
+                {
+                    Passed = SolutionsMatch(studentResult, solution),
+                    Input = GetInputString(test),
+                    ExpectedOutput = GetOutputString(solution),
+                    ActualOutput = GetOutputString(studentResult)
+                };
+            }
+            catch (Exception e)
+            {
+                return new TestResult()
+                {
+                    Passed = false,
+                    Input = GetInputString(test),
+                    ExpectedOutput = GetOutputString(solution),
+                    ActualOutput = e.Message
+                };
+            }
         }
 
         internal void PrintSolutions()
@@ -100,48 +134,82 @@ namespace Flex_Day_Challenge_Tester_2
             return SolutionFunction(inputs.Item1, inputs.Item2);
         }
 
-        internal void RunTests(Func<TInputType1, TInputType2, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
+        internal void RunTests(
+            Func<TInputType1, TInputType2, TOutputType> studentFunction,
+            bool printAllResults = false,
+            bool printDetailedFailures = false,
+            bool breakOnTestFailure = true
+        )
         {
             Console.WriteLine($"Running tests for {TestName}...");
 
             IList<Tuple<TInputType1, TInputType2>> tests = GetTests();
+            int passes = 0;
+            int failures = 0;
+
             for (int i = 0; i < tests.Count; i++)
             {
                 var test = tests[i];
+                TestResult result = RunSingleTest(test, studentFunction);
 
-                try
+                if (result.Failed)
                 {
-                    TOutputType solution = SolutionFunction(test);
-                    TOutputType studentResult = studentFunction(test.Item1, test.Item2);
+                    failures++;
 
-                    bool passed = SolutionsMatch(studentResult, solution);
-
-                    if (printIndividualResults)
+                    if (printDetailedFailures || printAllResults)
                     {
-                        Console.WriteLine($"Test case: {i}.  Expected result: \n{GetOutputString(solution)}\n.  Student result: \n{GetOutputString(studentResult)}\n.  Test Passed: {passed}.");
+                        Console.WriteLine($"Test index {i} failed.");
+                        Console.WriteLine($"Input: \n{result.Input}");
+                        Console.WriteLine($"Output: \n{result.ActualOutput}");
+                        Console.WriteLine($"Exptected output: \n{result.ExpectedOutput}");
                     }
-                    if (!passed)
+
+                    if (breakOnTestFailure)
                     {
-                        Console.WriteLine("Test failed");
-                        return;
+                        break;
                     }
                 }
-                catch (Exception e)
+                else
                 {
-                    if (printErrorMessages)
+                    passes++;
+                    if (printAllResults)
                     {
-                        Console.WriteLine($"Error thrown on zero-indexed test case: {i}.  Error message: {e.Message}");
+                        Console.WriteLine($"Test index {i} passed.");
+                        Console.WriteLine($"Input: \n{result.Input}");
+                        Console.WriteLine($"Output: \n{result.ActualOutput}");
                     }
-                    else
-                    {
-                        Console.WriteLine("Error thrown.");
-                    }
-                    return;
                 }
             }
 
-            Console.WriteLine("Tests passed.");
-            return;
+            Console.WriteLine($"Final testing results: {passes} passes.  {failures} failures.");
+        }
+
+        internal TestResult RunSingleTest(Tuple<TInputType1, TInputType2> test, Func<TInputType1, TInputType2, TOutputType> studentFunction)
+        {
+            TOutputType solution = SolutionFunction(test);
+
+            try
+            {
+                TOutputType studentResult = studentFunction(test.Item1, test.Item2);
+
+                return new TestResult()
+                {
+                    Passed = SolutionsMatch(studentResult, solution),
+                    Input = GetInputString(test),
+                    ExpectedOutput = GetOutputString(solution),
+                    ActualOutput = GetOutputString(studentResult)
+                };
+            }
+            catch (Exception e)
+            {
+                return new TestResult()
+                {
+                    Passed = false,
+                    Input = GetInputString(test),
+                    ExpectedOutput = GetOutputString(solution),
+                    ActualOutput = e.Message
+                };
+            }
         }
 
         internal void PrintSolutions()
@@ -188,48 +256,82 @@ namespace Flex_Day_Challenge_Tester_2
             return SolutionFunction(inputs.Item1, inputs.Item2, inputs.Item3);
         }
 
-        internal void RunTests(Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction, bool printIndividualResults = false, bool printErrorMessages = false)
+        internal void RunTests(
+            Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction,
+            bool printAllResults = false,
+            bool printDetailedFailures = false,
+            bool breakOnTestFailure = true
+        )
         {
             Console.WriteLine($"Running tests for {TestName}...");
 
             IList<Tuple<TInputType1, TInputType2, TInputType3>> tests = GetTests();
+            int passes = 0;
+            int failures = 0;
+
             for (int i = 0; i < tests.Count; i++)
             {
                 var test = tests[i];
+                TestResult result = RunSingleTest(test, studentFunction);
 
-                try
+                if (result.Failed)
                 {
-                    TOutputType solution = SolutionFunction(test);
-                    TOutputType studentResult = studentFunction(test.Item1, test.Item2, test.Item3);
+                    failures++;
 
-                    bool passed = SolutionsMatch(studentResult, solution);
-
-                    if (printIndividualResults)
+                    if (printDetailedFailures || printAllResults)
                     {
-                        Console.WriteLine($"Test case: {i}.  Expected result: \n{GetOutputString(solution)}\n.  Student result: \n{GetOutputString(studentResult)}\n.  Test Passed: {passed}.");
+                        Console.WriteLine($"Test index {i} failed.");
+                        Console.WriteLine($"Input: \n{result.Input}");
+                        Console.WriteLine($"Output: \n{result.ActualOutput}");
+                        Console.WriteLine($"Exptected output: \n{result.ExpectedOutput}");
                     }
-                    if (!passed)
+
+                    if (breakOnTestFailure)
                     {
-                        Console.WriteLine("Test failed");
-                        return;
+                        break;
                     }
                 }
-                catch (Exception e)
+                else
                 {
-                    if (printErrorMessages)
+                    passes++;
+                    if (printAllResults)
                     {
-                        Console.WriteLine($"Error thrown on zero-indexed test case: {i}.  Error message: {e.Message}");
+                        Console.WriteLine($"Test index {i} passed.");
+                        Console.WriteLine($"Input: \n{result.Input}");
+                        Console.WriteLine($"Output: \n{result.ActualOutput}");
                     }
-                    else
-                    {
-                        Console.WriteLine("Error thrown.");
-                    }
-                    return;
                 }
             }
 
-            Console.WriteLine("Tests passed.");
-            return;
+            Console.WriteLine($"Final testing results: {passes} passes.  {failures} failures.");
+        }
+
+        internal TestResult RunSingleTest(Tuple<TInputType1, TInputType2, TInputType3> test, Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction)
+        {
+            TOutputType solution = SolutionFunction(test);
+
+            try
+            {
+                TOutputType studentResult = studentFunction(test.Item1, test.Item2, test.Item3);
+
+                return new TestResult()
+                {
+                    Passed = SolutionsMatch(studentResult, solution),
+                    Input = GetInputString(test),
+                    ExpectedOutput = GetOutputString(solution),
+                    ActualOutput = GetOutputString(studentResult)
+                };
+            }
+            catch (Exception e)
+            {
+                return new TestResult()
+                {
+                    Passed = false,
+                    Input = GetInputString(test),
+                    ExpectedOutput = GetOutputString(solution),
+                    ActualOutput = e.Message
+                };
+            }
         }
 
         internal void PrintSolutions()
@@ -264,5 +366,19 @@ namespace Flex_Day_Challenge_Tester_2
         {
             return output.ToString();
         }
+    }
+
+    internal class TestResult
+    {
+        internal bool Passed { get; init; }
+        internal bool Failed { 
+            get
+            {
+                return !Passed;
+            } 
+        }
+        internal string Input { get; init; }
+        internal string ExpectedOutput { get; init; }
+        internal string ActualOutput { get; init; }
     }
 }
