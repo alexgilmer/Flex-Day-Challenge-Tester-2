@@ -30,8 +30,8 @@ namespace Flex_Day_Challenge_Tester_2
 
             for (int i = 0; i < solutionTestList.Count; i++)
             {
-                var solutionTestData = solutionTestList[i];
-                var studentTestData = studentTestList[i];
+                TInputType solutionTestData = solutionTestList[i];
+                TInputType studentTestData = studentTestList[i];
 
                 TestResult result = RunSingleTest(solutionTestData, studentTestData, studentFunction);
 
@@ -96,7 +96,7 @@ namespace Flex_Day_Challenge_Tester_2
 
         internal void PrintSolutions()
         {
-            var tests = GetTests();
+            IList<TInputType> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
             {
                 Console.WriteLine($"Performing test {i}.");
@@ -155,8 +155,8 @@ namespace Flex_Day_Challenge_Tester_2
 
             for (int i = 0; i < solutionTestList.Count; i++)
             {
-                var solutionTestData = solutionTestList[i];
-                var studentTestData = studentTestList[i];
+                Tuple<TInputType1, TInputType2> solutionTestData = solutionTestList[i];
+                Tuple<TInputType1, TInputType2> studentTestData = studentTestList[i];
 
                 TestResult result = RunSingleTest(solutionTestData, studentTestData, studentFunction);
 
@@ -227,7 +227,7 @@ namespace Flex_Day_Challenge_Tester_2
 
         internal void PrintSolutions()
         {
-            var tests = GetTests();
+            IList<Tuple<TInputType1, TInputType2>> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
             {
                 Console.WriteLine($"Performing test {i}.");
@@ -286,8 +286,8 @@ namespace Flex_Day_Challenge_Tester_2
 
             for (int i = 0; i < solutionTestList.Count; i++)
             {
-                var solutionTestData = solutionTestList[i];
-                var studentTestData = studentTestList[i];
+                Tuple<TInputType1, TInputType2, TInputType3> solutionTestData = solutionTestList[i];
+                Tuple<TInputType1, TInputType2, TInputType3> studentTestData = studentTestList[i];
 
                 TestResult result = RunSingleTest(solutionTestData, studentTestData, studentFunction);
 
@@ -361,7 +361,7 @@ namespace Flex_Day_Challenge_Tester_2
 
         internal void PrintSolutions()
         {
-            var tests = GetTests();
+            IList<Tuple<TInputType1, TInputType2, TInputType3>> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
             {
                 Console.WriteLine($"Performing test {i}.");
