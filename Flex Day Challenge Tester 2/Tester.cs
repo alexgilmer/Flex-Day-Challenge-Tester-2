@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Flex_Day_Challenge_Tester_2
 {
@@ -10,13 +11,44 @@ namespace Flex_Day_Challenge_Tester_2
     {
         protected abstract string TestName { get; }
         protected abstract IList<TInputType> GetTests();
+
+        protected virtual int TimeLimitMilliseconds { get; } = 1_000;
+
+        /// <summary>
+        ///   The system solution for this problem.  All child classes must implement their own solution to the problem.
+        /// </summary>
+        /// <param name="input">
+        ///   The input for the solution function. 
+        /// </param>
+        /// <returns>
+        ///   The output from the solution function. 
+        /// </returns>
         protected abstract TOutputType SolutionFunction(TInputType input);
 
+        /// <summary>
+        ///   Runs the student function through all test cases against the system solution. 
+        /// </summary>
+        /// <param name="studentFunction">
+        ///   The function to be tested.
+        /// </param>
+        /// <param name="printAllResults">
+        ///   Print the result of each test, instead of only the final verdict.
+        /// </param>
+        /// <param name="printDetailedFailures">
+        ///   Print additional details when the student's code fails
+        /// </param>
+        /// <param name="breakOnTestFailure">
+        ///   Halts testing when the student's code fails a test
+        /// </param>
+        /// <param name="printComputationTimes">
+        ///   Prints details on computation time.  Only works if printAllResults or printDetailedFailures is true.
+        /// </param>
         internal void RunTests(
             Func<TInputType, TOutputType> studentFunction,
             bool printAllResults = false,
             bool printDetailedFailures = false,
-            bool breakOnTestFailure = true
+            bool breakOnTestFailure = true,
+            bool printComputationTimes = false
         )
         {
             Console.WriteLine($"Running tests for {TestName}...");
@@ -45,6 +77,11 @@ namespace Flex_Day_Challenge_Tester_2
                         Console.WriteLine($"Input: \n{result.Input}");
                         Console.WriteLine($"Output: \n{result.ActualOutput}");
                         Console.WriteLine($"Exptected output: \n{result.ExpectedOutput}");
+                        if (printComputationTimes)
+                        {
+                            Console.WriteLine($"System computation time: {result.SystemSolutionComputationTime}");
+                            Console.WriteLine($"Student computation time: {result.StudentSolutionComputationTime}");
+                        }
                     }
 
                     if (breakOnTestFailure)
@@ -60,6 +97,11 @@ namespace Flex_Day_Challenge_Tester_2
                         Console.WriteLine($"\nTest index {i} passed.");
                         Console.WriteLine($"Input: \n{result.Input}");
                         Console.WriteLine($"Output: \n{result.ActualOutput}");
+                        if (printComputationTimes)
+                        {
+                            Console.WriteLine($"System computation time: {result.SystemSolutionComputationTime}");
+                            Console.WriteLine($"Student computation time: {result.StudentSolutionComputationTime}");
+                        }
                     }
                 }
             }
@@ -69,29 +111,67 @@ namespace Flex_Day_Challenge_Tester_2
 
         private TestResult RunSingleTest(TInputType solutionTestData, TInputType studentTestData, Func<TInputType, TOutputType> studentFunction)
         {
+            var stopwatch = new Stopwatch();
+            
+            stopwatch.Start();
             TOutputType solution = SolutionFunction(solutionTestData);
-            try
-            {
-                TOutputType studentResult = studentFunction(studentTestData);
+            stopwatch.Stop();
+            long systemSolutionTimeMilliseconds = stopwatch.ElapsedMilliseconds;
+            stopwatch.Reset();
 
-                return new TestResult()
-                {
-                    Passed = SolutionsMatch(studentResult, solution),
-                    Input = GetInputString(solutionTestData),
-                    ExpectedOutput = GetOutputString(solution),
-                    ActualOutput = GetOutputString(studentResult)
-                };
-            }
-            catch (Exception e)
+            Task<TestResult> studentTask = Task.Run(() =>
             {
+                try
+                {
+                    stopwatch.Start();
+                    TOutputType studentResult = studentFunction(studentTestData);
+                    stopwatch.Stop();
+
+                    return new TestResult()
+                    {
+                        Passed = SolutionsMatch(studentResult, solution),
+                        Input = GetInputString(solutionTestData),
+                        ExpectedOutput = GetOutputString(solution),
+                        ActualOutput = GetOutputString(studentResult),
+                        StudentSolutionComputationTime = stopwatch.ElapsedMilliseconds,
+                        SystemSolutionComputationTime = systemSolutionTimeMilliseconds
+                    };
+                }
+                catch (Exception e)
+                {
+                    stopwatch.Stop();
+                    return new TestResult()
+                    {
+                        Passed = false,
+                        Input = GetInputString(solutionTestData),
+                        ExpectedOutput = GetOutputString(solution),
+                        ActualOutput = "Run time error: " + e.Message,
+                        SystemSolutionComputationTime = systemSolutionTimeMilliseconds,
+                        StudentSolutionComputationTime = stopwatch.ElapsedMilliseconds,
+                    };
+                }
+            });
+            Task<TestResult> timerTask = Task.Run(() =>
+            {
+                Thread.Sleep(TimeLimitMilliseconds);
                 return new TestResult()
                 {
                     Passed = false,
                     Input = GetInputString(solutionTestData),
                     ExpectedOutput = GetOutputString(solution),
-                    ActualOutput = e.Message
+                    ActualOutput = "Time Limit Exceeded",
+                    SystemSolutionComputationTime = systemSolutionTimeMilliseconds,
+                    StudentSolutionComputationTime = TimeLimitMilliseconds,
                 };
-            }
+            });
+
+            int result = Task.WaitAny(studentTask, timerTask);
+            return result switch
+            {
+                0 => studentTask.Result,
+                1 => timerTask.Result,
+                _ => throw new Exception("Task.WaitAny returned an unexpected value")
+            };
         }
 
         internal void PrintSolutions()
@@ -101,12 +181,22 @@ namespace Flex_Day_Challenge_Tester_2
             {
                 Console.WriteLine($"Performing test {i}.");
                 Console.WriteLine(GetInputString(tests[i]));
-                Console.WriteLine(GetOutputString(SolutionFunction(tests[i])));
+                var watch = new Stopwatch();
+                watch.Start();
+                var result = SolutionFunction(tests[i]);
+                watch.Stop();
+                Console.WriteLine(GetOutputString(result));
+                Console.WriteLine($"Computation time: {watch.ElapsedMilliseconds}ms.\n");
             }
         }
 
         protected virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
         {
+            if (s1 == null)
+                return false;
+            if (s2 == null)
+                return false;
+
             if (s1 is IEquatable<TOutputType> es1 && s2 is IEquatable<TOutputType> es2)
             {
                 return es1.Equals(es2);
@@ -405,5 +495,7 @@ namespace Flex_Day_Challenge_Tester_2
         internal string Input { get; init; }
         internal string ExpectedOutput { get; init; }
         internal string ActualOutput { get; init; }
+        internal long StudentSolutionComputationTime { get; init; }
+        internal long SystemSolutionComputationTime { get; init; }
     }
 }
