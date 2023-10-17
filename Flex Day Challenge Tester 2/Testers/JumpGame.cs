@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal class JumpGameTester : Tester<int[], bool>
+    // flag: a062fb18956fa1910f45e
+    public class JumpGameTester : Tester<int[], bool>
     {
-        protected override string TestName => "Jump Game";
+        public override string TestName => "Jump Game";
 
-        protected override IList<int[]> GetTests()
+        public override IList<int[]> GetTests()
         {
             IList<int[]> tests = new List<int[]>();
             int[] test0 = new int[] { 1, 2, 3 };

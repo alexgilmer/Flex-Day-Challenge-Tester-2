@@ -7,12 +7,12 @@ using System.Diagnostics;
 
 namespace Flex_Day_Challenge_Tester_2
 {
-    internal abstract class Tester<TInputType, TOutputType>
+    public abstract class Tester<TInputType, TOutputType>
     {
-        protected abstract string TestName { get; }
-        protected abstract IList<TInputType> GetTests();
+        public abstract string TestName { get; }
+        public abstract IList<TInputType> GetTests();
 
-        protected virtual int TimeLimitMilliseconds { get; } = 1_000;
+        public virtual int TimeLimitMilliseconds { get; } = 1_000;
 
         /// <summary>
         ///   The system solution for this problem.  All child classes must implement their own solution to the problem.
@@ -43,7 +43,7 @@ namespace Flex_Day_Challenge_Tester_2
         /// <param name="printComputationTimes">
         ///   Prints details on computation time.  Only works if printAllResults or printDetailedFailures is true.
         /// </param>
-        internal void RunTests(
+        public void RunTests(
             Func<TInputType, TOutputType> studentFunction,
             bool printAllResults = false,
             bool printDetailedFailures = false,
@@ -109,7 +109,7 @@ namespace Flex_Day_Challenge_Tester_2
             Console.WriteLine($"\nFinal testing results: {passes} pass(es).  {failures} failure(s).");
         }
 
-        private TestResult RunSingleTest(TInputType solutionTestData, TInputType studentTestData, Func<TInputType, TOutputType> studentFunction)
+        public TestResult RunSingleTest(TInputType solutionTestData, TInputType studentTestData, Func<TInputType, TOutputType> studentFunction)
         {
             var stopwatch = new Stopwatch();
             
@@ -174,7 +174,7 @@ namespace Flex_Day_Challenge_Tester_2
             };
         }
 
-        internal void PrintSolutions()
+        public void PrintSolutions()
         {
             IList<TInputType> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
@@ -190,7 +190,7 @@ namespace Flex_Day_Challenge_Tester_2
             }
         }
 
-        protected virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
+        public virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
         {
             if (s1 == null)
                 return false;
@@ -207,23 +207,23 @@ namespace Flex_Day_Challenge_Tester_2
             }
         }
 
-        protected virtual string GetInputString(TInputType input)
+        public virtual string GetInputString(TInputType input)
         {
             return input.ToString();
         }
 
-        protected virtual string GetOutputString(TOutputType output)
+        public virtual string GetOutputString(TOutputType output)
         {
             return output.ToString();
         }
     }
 
-    internal abstract class Tester<TInputType1, TInputType2, TOutputType>
+    public abstract class Tester<TInputType1, TInputType2, TOutputType>
     {
-        protected abstract string TestName { get; }
-        protected abstract IList<Tuple<TInputType1, TInputType2>> GetTests();
+        public abstract string TestName { get; }
+        public abstract IList<Tuple<TInputType1, TInputType2>> GetTests();
 
-        protected virtual int TimeLimitMilliseconds { get; } = 1_000;
+        public virtual int TimeLimitMilliseconds { get; } = 1_000;
 
         /// <summary>
         ///   The system solution for this problem.  All child classes must implement their own solution to the problem.
@@ -257,7 +257,7 @@ namespace Flex_Day_Challenge_Tester_2
         /// <param name="printComputationTimes">
         ///   Prints details on computation time.  Only works if printAllResults or printDetailedFailures is true.
         /// </param>
-        internal void RunTests(
+        public void RunTests(
             Func<TInputType1, TInputType2, TOutputType> studentFunction,
             bool printAllResults = false,
             bool printDetailedFailures = false,
@@ -388,7 +388,7 @@ namespace Flex_Day_Challenge_Tester_2
             };
         }
 
-        internal void PrintSolutions()
+        public void PrintSolutions()
         {
             IList<Tuple<TInputType1, TInputType2>> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
@@ -404,7 +404,7 @@ namespace Flex_Day_Challenge_Tester_2
             }
         }
 
-        protected virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
+        public virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
         {
             if (s1 == null)
                 return false;
@@ -421,23 +421,23 @@ namespace Flex_Day_Challenge_Tester_2
             }
         }
 
-        protected virtual string GetInputString(Tuple<TInputType1, TInputType2> input)
+        public virtual string GetInputString(Tuple<TInputType1, TInputType2> input)
         {
             return $"[{input.Item1}, {input.Item2}]";
         }
 
-        protected virtual string GetOutputString(TOutputType output)
+        public virtual string GetOutputString(TOutputType output)
         {
             return $"{output}";
         }
     }
 
-    internal abstract class Tester<TInputType1, TInputType2, TInputType3, TOutputType>
+    public abstract class Tester<TInputType1, TInputType2, TInputType3, TOutputType>
     {
-        protected abstract string TestName { get; }
-        protected abstract IList<Tuple<TInputType1, TInputType2, TInputType3>> GetTests();
+        public abstract string TestName { get; }
+        public abstract IList<Tuple<TInputType1, TInputType2, TInputType3>> GetTests();
 
-        protected virtual int TimeLimitMilliseconds { get; } = 1_000;
+        public virtual int TimeLimitMilliseconds { get; } = 1_000;
 
         /// <summary>
         ///   The system solution for this problem.  All child classes must implement their own solution to the problem.
@@ -474,7 +474,7 @@ namespace Flex_Day_Challenge_Tester_2
         /// <param name="printComputationTimes">
         ///   Prints details on computation time.  Only works if printAllResults or printDetailedFailures is true.
         /// </param>
-        internal void RunTests(
+        public void RunTests(
             Func<TInputType1, TInputType2, TInputType3, TOutputType> studentFunction,
             bool printAllResults = false,
             bool printDetailedFailures = false,
@@ -605,7 +605,7 @@ namespace Flex_Day_Challenge_Tester_2
             };
         }
 
-        internal void PrintSolutions()
+        public void PrintSolutions()
         {
             IList<Tuple<TInputType1, TInputType2, TInputType3>> tests = GetTests();
             for (int i = 0; i < tests.Count; i++)
@@ -621,7 +621,7 @@ namespace Flex_Day_Challenge_Tester_2
             }
         }
 
-        protected virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
+        public virtual bool SolutionsMatch(TOutputType s1, TOutputType s2)
         {
             if (s1 == null)
                 return false;
@@ -638,30 +638,30 @@ namespace Flex_Day_Challenge_Tester_2
             }
         }
 
-        protected virtual string GetInputString(Tuple<TInputType1, TInputType2, TInputType3> input)
+        public virtual string GetInputString(Tuple<TInputType1, TInputType2, TInputType3> input)
         {
             return $"[{input.Item1}, {input.Item2}, {input.Item3}]";
         }
 
-        protected virtual string GetOutputString(TOutputType output)
+        public virtual string GetOutputString(TOutputType output)
         {
             return $"{output}";
         }
     }
 
-    internal class TestResult
+    public class TestResult
     {
-        internal bool Passed { get; init; }
-        internal bool Failed { 
+        public bool Passed { get; init; }
+        public bool Failed { 
             get
             {
                 return !Passed;
             } 
         }
-        internal string Input { get; init; }
-        internal string ExpectedOutput { get; init; }
-        internal string ActualOutput { get; init; }
-        internal long StudentSolutionComputationTime { get; init; }
-        internal long SystemSolutionComputationTime { get; init; }
+        public string Input { get; init; }
+        public string ExpectedOutput { get; init; }
+        public string ActualOutput { get; init; }
+        public long StudentSolutionComputationTime { get; init; }
+        public long SystemSolutionComputationTime { get; init; }
     }
 }

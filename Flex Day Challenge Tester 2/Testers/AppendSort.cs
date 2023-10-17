@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal sealed class AppendSortTester : Tester<IList<int>, int>
+    // Flag: 0e6f78728493d1f85cef0ecc262e4aa
+    public sealed class AppendSortTester : Tester<IList<int>, int>
     {
-        protected override string TestName => "Append Sort";
+        public override string TestName => "Append Sort";
 
-        protected override IList<IList<int>> GetTests()
+        public override IList<IList<int>> GetTests()
         {
             List<IList<int>> tests = new();
 

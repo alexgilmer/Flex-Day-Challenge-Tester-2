@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal class PhoneWordsTester : Tester<string, IList<string>>
+    // Flag: 366a2221b50695e34be4f41ea517254a22a
+    public class PhoneWordsTester : Tester<string, IList<string>>
     {
-        protected override string TestName => "Phone Words";
+        public override string TestName => "Phone Words";
 
-        protected override IList<string> GetTests()
+        public override IList<string> GetTests()
         {
             return new List<string>
             {
@@ -65,7 +66,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             }
         }
 
-        protected override string GetOutputString(IList<string> output)
+        public override string GetOutputString(IList<string> output)
         {
             StringBuilder result = new("[ ");
             foreach (string word in output)
@@ -76,7 +77,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return result.ToString();
         }
 
-        protected override bool SolutionsMatch(IList<string> s1, IList<string> s2)
+        public override bool SolutionsMatch(IList<string> s1, IList<string> s2)
         {
             HashSet<string> h1 = new(s1);
 

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal class AverageBasesTester : Tester<int, string>
+    // flag: b9c81f9d460eaf97331cdacbd5
+    public class AverageBasesTester : Tester<int, string>
     {
-        protected override string TestName => "Average Bases";
+        public override string TestName => "Average Bases";
 
-        protected override IList<int> GetTests()
+        public override IList<int> GetTests()
         {
             return new List<int>
             {

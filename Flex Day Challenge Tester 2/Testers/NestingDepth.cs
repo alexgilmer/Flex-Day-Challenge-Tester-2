@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal sealed class NestingDepthTester : Tester<string, string>
+    // flag: 3bf665e39fe0a8295ef9662f8216
+    public sealed class NestingDepthTester : Tester<string, string>
     {
-        protected override string TestName => "Nesting Depth";
-        protected override IList<string> GetTests()
+        public override string TestName => "Nesting Depth";
+        public override IList<string> GetTests()
         {
             string test0 = "0000";
             string test1 = "101";

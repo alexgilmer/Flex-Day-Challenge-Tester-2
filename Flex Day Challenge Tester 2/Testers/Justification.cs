@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal class JustificationTester : Tester<string, int, IList<string>>
+    // Flag: 042d4d5753d55d9c1064ca90f766ded9e1
+    public class JustificationTester : Tester<string, int, IList<string>>
     {
-        protected override string TestName => "String Justifier";
+        public override string TestName => "String Justifier";
 
-        protected override IList<Tuple<string, int>> GetTests()
+        public override IList<Tuple<string, int>> GetTests()
         {
             IList<Tuple<string, int>> tests = new List<Tuple<string, int>>();
 
@@ -135,7 +136,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             line.Append(words[words.Length - 1]);
         }
 
-        protected override bool SolutionsMatch(IList<string> s1, IList<string> s2)
+        public override bool SolutionsMatch(IList<string> s1, IList<string> s2)
         {
             if (s1.Count != s2.Count)
             {
@@ -153,7 +154,12 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return true;
         }
 
-        protected override string GetOutputString(IList<string> output)
+        public override string GetInputString(Tuple<string, int> input)
+        {
+            return $"{input.Item1}({input.Item2})";
+        }
+
+        public override string GetOutputString(IList<string> output)
         {
             StringBuilder result = new();
             foreach (string s in output)

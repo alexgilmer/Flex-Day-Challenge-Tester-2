@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Flex_Day_Challenge_Tester_2.Testers
 {
-    internal class BallCountingTester : Tester<BigInteger, BigInteger>
+    // flag: 24d9ebf4ca86fef131adc8a82f89aa2d40778e0ae77c28aa05b42ab9d0624592
+    public class BallCountingTester : Tester<BigInteger, BigInteger>
     {
-        protected override string TestName => "Ball Counting";
+        public override string TestName => "Ball Counting";
 
-        protected override IList<BigInteger> GetTests()
+        public override IList<BigInteger> GetTests()
         {
             return new List<BigInteger>
             {
@@ -55,7 +56,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             };
         }
 
-        private static BigInteger Parse(string text)
+        protected static BigInteger Parse(string text)
         {
             return BigInteger.Parse(text);
         }
@@ -107,4 +108,53 @@ namespace Flex_Day_Challenge_Tester_2.Testers
         }
 
     }
+
+    public class BallCountingTesterEasy : BallCountingTester
+    {
+        // flag: 48b7ca5c188b18679814861a61fbe40f053fb410d3f9c2f73105dc4eea947826
+        public override string TestName => base.TestName + ", EASY MODE";
+        public override IList<BigInteger> GetTests()
+        {
+            return new List<BigInteger>()
+            {
+                56,
+                63,
+                64,
+                65,
+                144,
+
+                256,
+                512,
+                195,
+                1234,
+                12,
+
+                333,
+                444,
+                555,
+                666,
+                777,
+
+                1,
+                10,
+                100,
+                1000,
+                10000
+            };
+        }
+    }
 }
+
+// input num 1e100:
+
+// O(n) solution
+// check every number
+// ~1e100 operations
+
+// O(sqrt(n)) solution
+// count the squares only
+// ~1e50 operations
+
+// O(log(n)) solution
+// just figure out the sqrt of n and subtract
+// ~100 operations
