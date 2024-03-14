@@ -46,7 +46,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return tests;
         }
 
-        protected override string SolutionFunction(string input)
+        public override string SolutionFunction(string input)
         {
             int curDepth = 0;
             StringBuilder result = new();

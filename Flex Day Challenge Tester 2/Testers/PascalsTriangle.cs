@@ -25,7 +25,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             };
         }
 
-        protected override IList<IList<int>> SolutionFunction(int input)
+        public override IList<IList<int>> SolutionFunction(int input)
         {
             List<IList<int>> result = new()
             {

@@ -61,7 +61,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return BigInteger.Parse(text);
         }
 
-        protected override BigInteger SolutionFunction(BigInteger input)
+        public override BigInteger SolutionFunction(BigInteger input)
         {
             return input - GetSquareRoot(input);
         }

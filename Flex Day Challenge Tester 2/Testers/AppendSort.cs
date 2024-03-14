@@ -56,7 +56,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return tests;
         }
 
-        protected override int SolutionFunction(IList<int> input)
+        public override int SolutionFunction(IList<int> input)
         {
             List<BigInteger> alteredNums = new() { input[0] };
 

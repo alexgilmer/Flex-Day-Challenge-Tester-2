@@ -21,7 +21,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             };
         }
 
-        protected override string SolutionFunction(int input)
+        public override string SolutionFunction(int input)
         {
             int digitSum = 0;
             int baseCount = 0;

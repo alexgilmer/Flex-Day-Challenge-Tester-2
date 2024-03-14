@@ -61,7 +61,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return tests;
         }
 
-        protected override bool SolutionFunction(int[] input)
+        public override bool SolutionFunction(int[] input)
         {
             if (input.Length == 1)
             {
@@ -90,6 +90,14 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             }
 
             return false;
+        }
+
+        public override string GetInputString(int[] input)
+        {
+            StringBuilder result = new("[ ");
+            result.Append(string.Join(", ", input));
+            result.Append(" ]");
+            return result.ToString();
         }
     }
 }

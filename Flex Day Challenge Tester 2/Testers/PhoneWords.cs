@@ -21,7 +21,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             };
         }
 
-        protected override IList<string> SolutionFunction(string input)
+        public override IList<string> SolutionFunction(string input)
         {
             return Solve(input, "");
         }
