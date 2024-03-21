@@ -89,7 +89,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return tests;
         }
 
-        protected override decimal SolutionFunction(int numberToBuy, Dictionary<int, decimal> prices)
+        public override decimal SolutionFunction(int numberToBuy, Dictionary<int, decimal> prices)
         {
             KeyValuePair<int, decimal>[] orderedDeals = prices.OrderByDescending(kvp => kvp.Value == 0 ? decimal.MaxValue : kvp.Key / kvp.Value).ToArray();
             return RecursiveSolution(numberToBuy, orderedDeals);

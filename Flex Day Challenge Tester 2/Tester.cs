@@ -237,7 +237,7 @@ namespace Flex_Day_Challenge_Tester_2
         /// <returns>
         ///   The output from the solution function. 
         /// </returns>
-        protected abstract TOutputType SolutionFunction(TInputType1 input1, TInputType2 input2);
+        public abstract TOutputType SolutionFunction(TInputType1 input1, TInputType2 input2);
 
         /// <summary>
         ///   Runs the student function through all test cases against the system solution. 

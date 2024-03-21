@@ -53,7 +53,7 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             return tests;
         }
 
-        protected override IList<string> SolutionFunction(string input1, int maxLength)
+        public override IList<string> SolutionFunction(string input1, int maxLength)
         {
             IList<string> result = new List<string>();
             string[] inputWords = input1.Split(' ');
