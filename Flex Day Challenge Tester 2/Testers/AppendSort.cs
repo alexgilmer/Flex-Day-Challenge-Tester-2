@@ -125,5 +125,10 @@ namespace Flex_Day_Challenge_Tester_2.Testers
             //}
             return result;
         }
+
+        public override string GetInputString(IList<int> input)
+        {
+            return $"[ {string.Join(", ", input)} ]";
+        }
     }
 }
